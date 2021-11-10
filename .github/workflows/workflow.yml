@@ -20,3 +20,8 @@ jobs:
     - uses: asdf-vm/actions/plugin-test@v1
       with:
         command: helmfile --version
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: make lint

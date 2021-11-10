@@ -6,7 +6,7 @@
 ## Install
 
 ```
-asdf plugin-add helmfile https://github.com/feniix/asdf-helmfile.git
+asdf plugin-add helmfile https://github.com//asdf-helmfile.git
 ```
 
 ## Use

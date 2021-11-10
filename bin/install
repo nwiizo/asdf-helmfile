@@ -16,14 +16,7 @@ install() {
   local platform
   [ "Linux" = "$(uname)" ] && platform="linux" || platform="darwin"
   local arch
-  [ "x86_64" = "$(uname -m)" ] && arch="amd64" || arch="386"
-  [ "aarch64" = "$(uname -m)" ] && arch="arm64"
-  # M1 MAC compatible
-  # https://github.com/roboll/helmfile/releases/　
-  if [ $platform="darwin" ] && [ $arch="arm64" ]; then
-    platform="darwin"
-    arch="amd64"
-  fi
+  arch="$(get_arch)"
   local download_url
   download_url="https://github.com/roboll/helmfile/releases/download/v${version}/helmfile_${platform}_${arch}"
   mkdir -p "${bin_install_path}"
@@ -34,3 +27,18 @@ install() {
 
 install "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
 
+get_arch() {
+  local -r machine="$(uname -m)"
+  OVERWRITE_ARCH=${ASDF_HASHICORP_OVERWRITE_ARCH:-"false"}
+  if [[ $OVERWRITE_ARCH != "false" ]]; then
+    echo "$OVERWRITE_ARCH"
+  elif [[ $machine == "arm64" ]] || [[ $machine == "aarch64" ]]; then
+    echo "arm64"
+  elif [[ $machine == *"arm"* ]] || [[ $machine == *"aarch"* ]]; then
+    echo "arm"
+  elif [[ $machine == *"386"* ]]; then
+    echo "386"
+  else
+    echo "amd64"
+  fi
+}

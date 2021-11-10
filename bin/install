@@ -18,6 +18,11 @@ install() {
   local arch
   [ "x86_64" = "$(uname -m)" ] && arch="amd64" || arch="386"
   [ "aarch64" = "$(uname -m)" ] && arch="arm64"
+  # M1 MAC compatible
+  if [ platform="darwin" ] && [ arch="arm64"]; then
+    platform="linux"
+    arch="arm64"
+  fi
   local download_url
   download_url="https://github.com/roboll/helmfile/releases/download/v${version}/helmfile_${platform}_${arch}"
   mkdir -p "${bin_install_path}"

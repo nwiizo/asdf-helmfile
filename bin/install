@@ -20,8 +20,8 @@ install() {
   [ "aarch64" = "$(uname -m)" ] && arch="arm64"
   # M1 MAC compatible
   if [ $platform="darwin" ] && [ $arch="arm64" ]; then
-    platform="linux"
-    arch="arm64"
+    platform="darwin"
+    arch="amd64"
   fi
   local download_url
   download_url="https://github.com/roboll/helmfile/releases/download/v${version}/helmfile_${platform}_${arch}"

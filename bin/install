@@ -19,7 +19,7 @@ install() {
   [ "x86_64" = "$(uname -m)" ] && arch="amd64" || arch="386"
   [ "aarch64" = "$(uname -m)" ] && arch="arm64"
   # M1 MAC compatible
-  if [ platform="darwin" ] && [ arch="arm64"]; then
+  if [ $platform="darwin" ] && [ $arch="arm64" ]; then
     platform="linux"
     arch="arm64"
   fi

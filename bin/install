@@ -6,6 +6,22 @@ set -euo pipefail
 [ -z "${ASDF_INSTALL_VERSION+x}" ] && echo "ASDF_INSTALL_VERSION is required" && exit 1
 [ -z "${ASDF_INSTALL_PATH+x}" ] && echo "ASDF_INSTALL_PATH is required" && exit 1
 
+get_arch() {
+  local -r machine="$(uname -m)"
+  OVERWRITE_ARCH=${ASDF_HASHICORP_OVERWRITE_ARCH:-"false"}
+  if [[ $OVERWRITE_ARCH != "false" ]]; then
+    echo "$OVERWRITE_ARCH"
+  elif [[ $machine == "arm64" ]] || [[ $machine == "aarch64" ]]; then
+    echo "arm64"
+  elif [[ $machine == *"arm"* ]] || [[ $machine == *"aarch"* ]]; then
+    echo "arm"
+  elif [[ $machine == *"386"* ]]; then
+    echo "386"
+  else
+    echo "amd64"
+  fi
+}
+
 install() {
   local install_type=$1
   [ "$install_type" != "version" ] && echo "intall type, $install_type, is not supported" && exit 1
@@ -26,19 +42,3 @@ install() {
 }
 
 install "$ASDF_INSTALL_TYPE" "$ASDF_INSTALL_VERSION" "$ASDF_INSTALL_PATH"
-
-get_arch() {
-  local -r machine="$(uname -m)"
-  OVERWRITE_ARCH=${ASDF_HASHICORP_OVERWRITE_ARCH:-"false"}
-  if [[ $OVERWRITE_ARCH != "false" ]]; then
-    echo "$OVERWRITE_ARCH"
-  elif [[ $machine == "arm64" ]] || [[ $machine == "aarch64" ]]; then
-    echo "arm64"
-  elif [[ $machine == *"arm"* ]] || [[ $machine == *"aarch"* ]]; then
-    echo "arm"
-  elif [[ $machine == *"386"* ]]; then
-    echo "386"
-  else
-    echo "amd64"
-  fi
-}

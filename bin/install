@@ -34,7 +34,7 @@ install() {
   local arch
   arch="$(get_arch)"
   local download_url
-  download_url="https://github.com/helmfile/helmfile/releases/download/v${version}/helmfile_${platform}_${arch}"
+  download_url="https://github.com/roboll/helmfile/releases/download/v${version}/helmfile_${platform}_${arch}"
   mkdir -p "${bin_install_path}"
   echo "Downloading helmfile from ${download_url}"
   curl -sL "$download_url" -o "$bin_path"

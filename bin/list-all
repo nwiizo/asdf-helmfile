@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-releases_path=https://api.github.com/repos/roboll/helmfile/releases
+releases_path_old=https://api.github.com/repos/roboll/helmfile/releases
+releases_path_new=https://api.github.com/repos/helmfile/helmfile/releases
 cmd="curl -s"
 if [ -n "$GITHUB_API_TOKEN" ]; then
   cmd="$cmd -H 'Authorization: token $GITHUB_API_TOKEN'"
 fi
-cmd="$cmd $releases_path"
+
+cmd="$cmd $releases_path_old && $cmd $releases_path_new"
 
 # stolen from https://github.com/rbenv/ruby-build/pull/631/files#diff-fdcfb8a18714b33b07529b7d02b54f1dR942
 function sort_versions() {
